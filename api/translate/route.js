@@ -20,7 +20,11 @@ export async function POST(req) {
     }
 
     const response = NextResponse.json({ translations });
+
+    // Set CORS headers
     response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
     return response;
   } catch (error) {
     console.error('Translation Error:', error.message, error.stack);
@@ -30,3 +34,15 @@ export async function POST(req) {
     );
   }
 }
+
+// Handle OPTIONS requests for CORS preflight
+export function OPTIONS() {
+  const response = new NextResponse(null, { status: 204 });
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+  return response;
+}
+
+
+  
